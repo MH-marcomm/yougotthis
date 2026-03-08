@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You Got This</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a0f0a; color: #faf3e8; font-family: 'DM Sans', sans-serif; min-height: 100vh; position: relative; overflow-x: hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .fade-up { animation: fadeUp 0.45s ease forwards; }
+  .gold-line { width:100%; height:1px; background:linear-gradient(90deg,transparent,#c9a84c,transparent); }
+  nav { display:flex; align-items:center; justify-content:space-between; padding:24px 48px; border-bottom:1px solid rgba(212,175,95,0.25); position:relative; z-index:10; flex-wrap:wrap; gap:16px; }
+  .logo { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; letter-spacing:0.05em; color:#d4af5f; text-transform:uppercase; }
+  .tagline { font-size:11px; letter-spacing:0.2em; color:rgba(250,243,232,0.45); text-transform:uppercase; }
+  .tabs { display:flex; gap:24px; flex-wrap:wrap; }
+  .tab-btn { background:none; border:none; color:rgba(250,243,232,0.5); font-size:11px; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; padding:4px 0; border-bottom:1px solid transparent; transition:all 0.2s; font-family:'DM Sans',sans-serif; font-weight:500; }
+  .tab-btn.active { color:#d4af5f; border-bottom-color:#d4af5f; }
+  .tab-btn:hover { opacity:0.85; }
+  .section { padding:0 48px 64px; position:relative; z-index:10; max-width:1200px; margin:0 auto; }
+  .hero { text-align:center; padding:64px 48px 48px; position:relative; z-index:10; }
+  .eyebrow { font-size:10px; letter-spacing:0.3em; color:#d4af5f; text-transform:uppercase; margin-bottom:16px; }
+  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(48px,8vw,96px); font-weight:900; line-height:0.95; color:#faf3e8; margin-bottom:24px; letter-spacing:-0.02em; }
+  .hero-title em { font-style:italic; color:#d4af5f; }
+  .hero-sub { font-size:15px; color:rgba(250,243,232,0.6); max-width:480px; margin:0 auto 40px; line-height:1.7; font-weight:300; }
+  .mood-row { display:flex; gap:12px; justify-content:center; margin-bottom:48px; flex-wrap:wrap; }
+  .mood-btn { background:rgba(250,243,232,0.05); border:1px solid rgba(250,243,232,0.18); color:rgba(250,243,232,0.65); padding:10px 24px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif; border-radius:1px; transition:all 0.2s; }
+  .mood-btn.active { background:rgba(212,175,95,0.18); border-color:#d4af5f; color:#d4af5f; }
+  .card { background:rgba(250,243,232,0.05); border:1px solid rgba(212,175,95,0.2); border-radius:2px; padding:32px; transition:border-color 0.3s; }
+  .card:hover { border-color:rgba(212,175,95,0.5); }
+  .card-gold { background:rgba(212,175,95,0.1); border:1px solid rgba(212,175,95,0.4); border-radius:2px; padding:32px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  .label { font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#d4af5f; margin-bottom:12px; font-weight:500; display:block; }
+  .section-title { font-family:'Playfair Display',serif; font-size:52px; font-weight:700; color:#faf3e8; margin-bottom:4px; }
+  .section-title em { font-style:italic; color:#d4af5f; }
+  .section-sub { font-size:13px; color:rgba(250,243,232,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:32px; display:block; }
+  .quote-text { font-family:'Playfair Display',serif; font-size:24px; font-style:italic; line-height:1.5; color:#faf3e8; margin-bottom:16px; }
+  .quote-attr { font-size:12px; color:rgba(250,243,232,0.45); letter-spacing:0.1em; text-transform:uppercase; }
+  .tip-cat { font-size:9px; letter-spacing:0.25em; color:#d4af5f; text-transform:uppercase; margin-bottom:10px; font-weight:500; display:block; }
+  .tip-text { font-size:15px; line-height:1.7; color:rgba(250,243,232,0.88); font-weight:300; }
+  .btn { background:#d4af5f; color:#1a0f0a; border:none; padding:14px 32px; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:500; border-radius:1px; transition:all 0.2s; }
+  .btn:hover { opacity:0.85; }
+  .btn-outline { background:transparent; color:#d4af5f; border:1px solid #d4af5f; padding:14px 32px; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:500; border-radius:1px; transition:all 0.2s; }
+  .btn-outline:hover { opacity:0.85; }
+  .btn-sm { padding:10px 20px; font-size:10px; }
+  .crisis-box { background:rgba(160,40,30,0.18); border:1px solid rgba(160,40,30,0.45); border-radius:2px; padding:32px; margin-bottom:24px; text-align:center; }
+  .crisis-scenario { font-family:'Playfair Display',serif; font-size:28px; font-style:italic; color:#faf3e8; line-height:1.4; }
+  .step-row { display:flex; gap:16px; margin-bottom:16px; align-items:flex-start; }
+  .step-num { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:rgba(212,175,95,0.35); line-height:1; min-width:40px; }
+  .step-text { font-size:15px; line-height:1.7; color:rgba(250,243,232,0.88); font-weight:300; padding-top:6px; }
+  .horo-symbol { font-size:32px; margin-bottom:4px; }
+  .horo-name { font-size:13px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(250,243,232,0.45); margin-bottom:4px; display:block; }
+  .horo-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:#d4af5f; margin-bottom:16px; display:block; }
+  .horo-text { font-size:14px; line-height:1.7; color:rgba(250,243,232,0.78); font-weight:300; }
+  .hidden { display:none !important; }
+  .tab-content { display:none; } 
+  .tab-content.active { display:block; }
+  footer { text-align:center; padding:24px; font-size:11px; letter-spacing:0.15em; color:rgba(250,243,232,0.25); text-transform:uppercase; position:relative; z-index:10; }
+  /* Meme styles */
+  .meme-wrap { margin-top:32px; padding-top:32px; border-top:1px solid rgba(212,175,95,0.15); }
+  .meme-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+  .meme-label { font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:rgba(250,243,232,0.35); }
+  .meme-impact { background:#111; border-radius:4px; padding:24px; text-align:center; min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; }
+  .impact-text { font-family:Impact,'Arial Black',sans-serif; font-size:clamp(16px,2.5vw,22px); font-weight:900; text-transform:uppercase; color:#fff; text-shadow:2px 2px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000; line-height:1.2; }
+  .meme-emoji-big { font-size:80px; margin:8px 0; display:block; }
+  .meme-drake { background:#111; border-radius:4px; overflow:hidden; }
+  .drake-row { display:flex; align-items:center; gap:20px; padding:24px; }
+  .drake-row:first-child { border-bottom:2px solid #333; }
+  .drake-icon { font-size:56px; min-width:70px; text-align:center; }
+  .drake-text-no { font-size:16px; color:rgba(250,243,232,0.5); font-weight:300; line-height:1.5; }
+  .drake-text-yes { font-size:16px; color:#faf3e8; font-weight:500; line-height:1.5; }
+  .meme-reaction { background:#111; border-radius:4px; padding:32px 24px 24px; text-align:center; }
+  .reaction-img { font-size:96px; margin-bottom:16px; display:block; }
+  .reaction-caption { font-size:15px; color:#faf3e8; font-style:italic; line-height:1.6; font-weight:300; }
+  .meme-two { background:#111; border-radius:4px; display:grid; grid-template-columns:1fr 1fr; overflow:hidden; }
+  .two-panel { padding:24px; }
+  .two-panel:first-child { background:#1a1a1a; border-right:2px solid #333; }
+  .two-panel:last-child { background:#222; }
+  .panel-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#d4af5f; margin-bottom:12px; font-weight:600; display:block; }
+  .panel-text { font-size:15px; color:#faf3e8; line-height:1.6; font-weight:300; }
+  .meme-side { background:#111; border-radius:4px; display:grid; grid-template-columns:1fr 1fr; overflow:hidden; }
+  .side-panel { padding:24px; text-align:center; }
+  .side-panel:first-child { background:#1e1a1a; border-right:2px solid #333; }
+  .side-panel:last-child { background:#1a1e1a; }
+  .side-label-red { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#c07070; margin-bottom:16px; font-weight:600; display:block; }
+  .side-label-gold { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#d4af5f; margin-bottom:16px; font-weight:600; display:block; }
+  .side-text-dim { font-size:15px; color:#faf3e8; line-height:1.6; font-weight:300; }
+  .side-text-bright { font-size:15px; color:#faf3e8; line-height:1.6; font-weight:500; }
+  @media (max-width: 768px) {
+    nav { padding:16px 24px; }
+    .section { padding:0 24px 48px; }
+    .hero { padding:40px 24px 32px; }
+    .grid2, .grid3 { grid-template-columns:1fr; }
+    .meme-two, .meme-side { grid-template-columns:1fr; }
+    .two-panel:first-child { border-right:none; border-bottom:2px solid #333; }
+    .side-panel:first-child { border-right:none; border-bottom:2px solid #333; }
+    .tabs { gap:16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div>
+    <div class="logo">You Got This</div>
+    <div class="tagline">Tips, support and solidarity for comms &amp; marketing baddies</div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('today')">Today</button>
+    <button class="tab-btn" onclick="switchTab('tips')">Tips</button>
+    <button class="tab-btn" onclick="switchTab('inspiration')">Inspiration</button>
+    <button class="tab-btn" onclick="switchTab('horoscope')">Horoscope</button>
+    <button class="tab-btn" onclick="switchTab('crisis')">Crisis Simulator</button>
+    <button class="tab-btn" onclick="switchTab('quotes')">Quotes</button>
+  </div>
+</nav>
+<div class="gold-line"></div>
+
+<!-- TODAY -->
+<div id="tab-today" class="tab-content active">
+  <div class="hero">
+    <div class="eyebrow">Your daily dispatch</div>
+    <h1 class="hero-title">You handle<br><em>everything.</em><br>We've got you.</h1>
+    <p class="hero-sub">Because nobody briefs you on this stuff</p>
+    <div class="mood-row">
+      <button class="mood-btn" onclick="setMood('Thriving')">Thriving</button>
+      <button class="mood-btn" onclick="setMood('Coping')">Coping</button>
+      <button class="mood-btn" onclick="setMood('Spiraling')">Spiraling</button>
+      <button class="mood-btn" onclick="setMood('Send Help')">Send Help</button>
+    </div>
+    <div id="mood-ack" class="hidden card-gold fade-up" style="max-width:560px;margin:0 auto 48px;text-align:center;"></div>
+  </div>
+
+  <div class="section">
+    <!-- mood matched -->
+    <div id="mood-content" class="hidden fade-up"></div>
+    <!-- default -->
+    <div id="default-content">
+      <div class="grid3">
+        <div class="card" style="grid-column:span 2">
+          <span class="label">Quote of the day</span>
+          <blockquote class="quote-text" id="def-quote-text"></blockquote>
+          <div class="quote-attr" id="def-quote-attr"></div>
+          <button class="btn-outline btn-sm" style="margin-top:24px" onclick="nextQuote()">Next Quote →</button>
+        </div>
+        <div class="card">
+          <span class="label">Tip of the day</span>
+          <span class="tip-cat" id="def-tip-cat"></span>
+          <p class="tip-text" id="def-tip-text"></p>
+          <button class="btn-outline btn-sm" style="margin-top:24px" onclick="nextTip()">Next Tip →</button>
+        </div>
+      </div>
+      <div id="default-meme"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div id="tab-tips" class="tab-content">
+  <div class="section" style="padding-top:48px">
+    <div class="eyebrow">Practical wisdom</div>
+    <h2 class="section-title">The <em>Playbook</em></h2>
+    <span class="section-sub">Field-tested. Battle-hardened. Actually useful.</span>
+    <div class="grid2" id="tips-grid"></div>
+  </div>
+</div>
+
+<!-- INSPIRATION -->
+<div id="tab-inspiration" class="tab-content">
+  <div class="section" style="padding-top:48px">
+    <div class="eyebrow">People worth knowing about</div>
+    <h2 class="section-title">Real <em>People,</em> Real Moves</h2>
+    <span class="section-sub">Comms &amp; marketing people doing it on their own terms.</span>
+    <div id="inspiration-grid" style="display:flex;flex-direction:column;gap:24px"></div>
+  </div>
+</div>
+
+<!-- HOROSCOPE -->
+<div id="tab-horoscope" class="tab-content">
+  <div class="section" style="padding-top:48px">
+    <div class="eyebrow">Weekly forecast</div>
+    <h2 class="section-title">Comms <em>Horoscope</em></h2>
+    <span class="section-sub">The stars know what your calendar doesn't.</span>
+    <div id="horo-buttons" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px"></div>
+    <div id="horo-selected" class="hidden"></div>
+    <div id="horo-grid" class="grid3"></div>
+  </div>
+</div>
+
+<!-- CRISIS -->
+<div id="tab-crisis" class="tab-content">
+  <div class="section" style="padding-top:48px">
+    <div class="eyebrow">Scenario training</div>
+    <h2 class="section-title">Crisis <em>Simulator</em></h2>
+    <span class="section-sub">Spin the wheel. Get the scenario. Stay composed.</span>
+    <div style="text-align:center;margin-bottom:40px">
+      <button class="btn" onclick="spinCrisis()" id="spin-btn">Spin the Wheel</button>
+    </div>
+    <div id="crisis-output" class="hidden fade-up">
+      <div class="crisis-box">
+        <span class="label" style="color:#ff6b6b">Scenario</span>
+        <p class="crisis-scenario" id="crisis-text"></p>
+      </div>
+      <div style="text-align:center" id="playbook-btn-wrap">
+        <button class="btn-outline" onclick="showPlaybook()">Show Me the Playbook →</button>
+      </div>
+      <div id="playbook-content" class="card hidden" style="margin-top:24px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTES -->
+<div id="tab-quotes" class="tab-content">
+  <div class="section" style="padding-top:48px">
+    <div class="eyebrow">Words that hold</div>
+    <h2 class="section-title">The <em>Archive</em></h2>
+    <span class="section-sub">Save the ones that keep you going.</span>
+    <div id="quotes-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px"></div>
+  </div>
+</div>
+
+<div class="gold-line"></div>
+<footer>Built for the ones who hold it together</footer>
+
+<script>
+const QUOTES = [
+  { text: "You are not the message. You are the messenger. Protect accordingly.", attr: "Unknown comms veteran" },
+  { text: "Crisis is just an opportunity wearing a flak jacket.", attr: "Agency lore" },
+  { text: "No one remembers the press release. Everyone remembers how you handled the call.", attr: "Anonymous, 11pm on a Tuesday" },
+  { text: "A deadline is a love language. Learn it.", attr: "Every editor ever" },
+  { text: "You didn't get into this for the glory. Which is good. Because there is none.", attr: "Overheard at a comms off-site" },
+  { text: "Control the narrative or the narrative controls you.", attr: "Sun Tzu, probably" },
+  { text: "If it's not on the record, it doesn't exist. If it is on the record, you wrote it at 2am.", attr: "Marketing manager, 6 years in" },
+  { text: "Boundaries are a brand strategy.", attr: "Your therapist, your mentor, and honestly your inbox" },
+  { text: "Urgent and important are not the same thing. You are allowed to know the difference.", attr: "The calendar you never follow" },
+  { text: "Rest is not a reward for finishing. Nothing ever finishes. Rest anyway.", attr: "Hard-won wisdom" },
+  { text: "You cannot pour from an empty inbox.", attr: "Anonymous, definitely not okay" },
+  { text: "Saying no to one thing is saying yes to something that actually matters.", attr: "Every coach you've ever paid for" },
+  { text: "The to-do list will still be there tomorrow. So will you. That part is non-negotiable.", attr: "A gentle reminder" },
+  { text: "Perfectionism is just procrastination in a blazer.", attr: "Overheard in a very honest team retro" },
+  { text: "You are not behind. You are human in a system that was not designed with humans in mind.", attr: "The permission slip you didn't know you needed" },
+  { text: "Done is a form of self-care.", attr: "Recovering perfectionist, year three" },
+  { text: "Your capacity is not a character flaw. It is a data point.", attr: "The conversation you should have with your manager" },
+  { text: "Not everything that feels urgent was sent to you by someone who respects your time.", attr: "Anonymous, finally setting an out-of-office" },
+  { text: "The meeting could have been an email. The email could have been nothing. You could have been outside.", attr: "A former overachiever" },
+  { text: "Workload is a negotiation. You are allowed to be at the table.", attr: "Someone who learned this the hard way" },
+];
+
+const TIPS = [
+  { category: "MEDIA RELATIONS", tip: "Never say 'no comment.' Say 'we're not in a position to share that at this time' and schedule a follow-up you control." },
+  { category: "CRISIS COMMS", tip: "The first 15 minutes matter most. Acknowledge, don't explain. Explanation comes after you know the full picture." },
+  { category: "STAKEHOLDER MGMT", tip: "Send the pre-read. Always send the pre-read. Your exec should never be surprised in a briefing you arranged." },
+  { category: "SOCIAL MEDIA", tip: "Silence is a statement. If you're going quiet during a crisis, say so. 'We'll share more shortly' beats a void." },
+  { category: "COPY & MESSAGING", tip: "Read it aloud before you send it. If you stumble, so will your audience. Cut accordingly." },
+  { category: "SELF-PRESERVATION", tip: "Log your wins in real time. Your memory will fail you. Your receipts won't." },
+  { category: "AGENCY LIFE", tip: "Scope creep has a cure: a written brief, a change order, and the word 'certainly — let me send you a revised timeline.'" },
+  { category: "IN-HOUSE SURVIVAL", tip: "You are not the last line of defence. Repeat this until you believe it. Then build better processes anyway." },
+];
+
+const HOROSCOPES = [
+  { symbol: "♈", name: "Aries", title: "The Press Release Perfectionist", text: "Mercury is in revision. Your 14th round of amends is actually the best one — but so was the 3rd. Ship it. You cannot edit your way to certainty." },
+  { symbol: "♉", name: "Taurus", title: "The Last-Minute Briefer", text: "The stars say: you will send the pre-read 4 minutes before the call. Growth is non-linear. At least this time you sent one." },
+  { symbol: "♊", name: "Gemini", title: "The Inbox Zero Dreamer", text: "Gemini energy suggests your inbox will reach 847 unread by Thursday. This is not a moral failing. Archive boldly." },
+  { symbol: "♋", name: "Cancer", title: "The Off-Record Whisperer", text: "Venus blesses your source relationships. A journalist will call you 'one of the good ones' this week. Hold that. Frame it internally." },
+  { symbol: "♌", name: "Leo", title: "The Always-On Martyr", text: "Mars in Leo asks: what would happen if you didn't reply until morning? The answer is: probably nothing. Test the hypothesis." },
+  { symbol: "♍", name: "Virgo", title: "The Deck Perfectionist", text: "Your slide deck has 47 slides for a 15-minute slot. The stars are not judging you. But your audience's attention span is." },
+  { symbol: "♎", name: "Libra", title: "The Diplomat", text: "You will be asked to 'soften' something that should not be softened. Libra season gives you the language. Use it. Then document the request." },
+  { symbol: "♏", name: "Scorpio", title: "The Crisis Whisperer", text: "You thrive when it's bad. This week will be fine, which will feel deeply suspicious. Trust it." },
+  { symbol: "♐", name: "Sagittarius", title: "The Big Picture Visionary", text: "Someone will ask you for 'just a quick caption.' You will see three brand strategy implications and one reputational risk. You are correct. Mention one." },
+  { symbol: "♑", name: "Capricorn", title: "The Quietly Carrying Everything", text: "You've been holding this together longer than anyone knows. Saturn sees you. So do we. Ask for the resource." },
+  { symbol: "♒", name: "Aquarius", title: "The Channel Agnostic", text: "You will pitch a TikTok and a white paper in the same week. Both are valid. Neither will get approved first try. Persist." },
+  { symbol: "♓", name: "Pisces", title: "The Feelings-Forward Communicator", text: "You brought empathy to a room that needed data. Next week, bring both. Lead with the feeling, close with the figure." },
+];
+
+const CRISIS_SCENARIOS = [
+  "Your CEO just liked a competitor's post — accidentally, allegedly.",
+  "The press release went out with the placeholder headline still in it.",
+  "A journalist has a story dropping in 2 hours. You just found out.",
+  "Your brand is trending on X. Not for a good reason.",
+  "The campaign launched. The landing page is 404.",
+  "An influencer posted your product — wrong product, wrong caption, 200k impressions.",
+  "Legal just killed the campaign. The creative already went to print.",
+  "Your spokesperson went off-script in a live interview. It's already clipped.",
+  "The email went to the wrong list. 40,000 people got the internal version.",
+  "A board member is publicly commenting on an unannounced acquisition.",
+];
+
+const CRISIS_RESPONSES = [
+  ["Breathe. You've done harder things before 9am.", "Draft three statements: one for internal, one for media, one for social. Pick the right one for each channel.", "Get the facts first. A fast wrong answer is worse than a slow right one.", "Find your decision-maker and brief them before they get briefed by someone else."],
+  ["Acknowledge swiftly, explain minimally, correct definitively.", "Your holding statement: 'We're aware and looking into it. We'll share more shortly.' That's it.", "Resist the urge to over-explain. The internet will fill the gap — give them something true to fill it with.", "Brief your team before they see it externally. Internal first. Always."],
+  ["You cannot unsend it. You can own it. Own it.", "Humour, when appropriate, can be your greatest asset. Know your brand voice well enough to know if this is a moment for it.", "Identify who needs to know: legal, leadership, comms lead, customer service. Loop them now.", "Document everything. The timeline, the decisions, who approved what. Your future self will thank you."],
+];
+
+const MOOD_CONTENT = {
+  "Thriving": { ack: "You absolute weapon. This is your moment — own it.", emoji: "✦", color: "#d4af5f", rgbRaw: "212,175,95", quote: { text: "Control the narrative or the narrative controls you.", attr: "Sun Tzu, probably" }, tip: { category: "CAREER GROWTH", tip: "Log your wins in real time. Your memory will fail you at review time. Your receipts won't." }, action: { label: "Your move", text: "Take yourself out for a coffee. Not as a reward — as a ritual. You're the asset. Maintain accordingly." }, extra: { label: "While you're thriving", text: "Think about one thing you've been putting off because you're too busy. Today's the day to start it." } },
+  "Coping": { ack: "One foot in front of the other. That's the whole job today.", emoji: "◈", color: "#a89060", rgbRaw: "212,175,95", quote: { text: "The to-do list will still be there tomorrow. So will you. That part is non-negotiable.", attr: "A gentle reminder" }, tip: { category: "SELF-PRESERVATION", tip: "You don't have to solve everything today. Identify the one thing that actually needs to move and move only that." }, action: { label: "One small thing", text: "Step away from the screen for 10 minutes. Not to check your phone — to actually step away. The inbox will survive." }, extra: { label: "Perspective check", text: "What's the actual worst case here? Write it down. It's almost always more manageable on paper than in your head." } },
+  "Spiraling": { ack: "Noted. Let's slow this down together.", emoji: "◎", color: "#c07040", rgbRaw: "192,112,64", quote: { text: "You are not behind. You are human in a system that was not designed with humans in mind.", attr: "The permission slip you didn't know you needed" }, tip: { category: "CRISIS COMMS (FOR YOURSELF)", tip: "Issue a brief internal statement: 'I am aware of the situation. I am looking into it. I will have more shortly.' Then actually have more shortly." }, action: { label: "Right now", text: "Name the thing that's actually causing the spiral. Just one thing. Not the list — the thing underneath the list." }, extra: { label: "Grounding note", text: "You have handled every hard thing that has ever happened to you. Your track record of getting through difficult days is 100%." } },
+  "Send Help": { ack: "We hear you. You are not alone and this will not last forever.", emoji: "♦", color: "#a04040", rgbRaw: "160,64,64", quote: { text: "Rest is not a reward for finishing. Nothing ever finishes. Rest anyway.", attr: "Hard-won wisdom" }, tip: { category: "EMERGENCY PROTOCOL", tip: "Cancel something. Not everything — one thing. Create one hour of white space and protect it like a media embargo." }, action: { label: "Seriously though", text: "Take yourself out for a coffee. Leave your laptop. Sit somewhere that isn't your desk. This is not optional. This is the brief." }, extra: { label: "Permission granted", text: "You are allowed to not be okay. You are allowed to say 'I'm at capacity.' You are allowed to ask for help. Starting now." } },
+};
+
+const MEMES = [
+  { format: "impact", emoji: "😤", top: "ASKED FOR A QUICK CAPTION", bottom: "GOT A STAKEHOLDER ALIGNMENT MEETING" },
+  { format: "drake", emoji: "🙅", reject: "Leaving work on time", approve: "Staying late to fix the thing that wasn't broken until someone else touched it" },
+  { format: "impact", emoji: "💀", top: "THE BRIEF: SOMETHING FUN AND SHAREABLE", bottom: "THE BUDGET: £0. THE TIMELINE: THURSDAY." },
+  { format: "reaction", emoji: "🧍", image: "👩‍💻", caption: "me explaining for the 4th time why we can't just 'make it go viral'" },
+  { format: "twopanel", emoji: "😭", before: { label: "WHAT THEY SAID", text: "Can you just tweak the copy a little?" }, after: { label: "WHAT THEY MEANT", text: "Please rewrite the entire strategy, reposition the brand, and have it done before the 3pm call" } },
+  { format: "impact", emoji: "🔥", top: "THIS IS FINE", bottom: "*campaign live, landing page 404, CEO on radio in 20 mins*" },
+  { format: "sidebyside", emoji: "⚔️", left: { label: "YOU", text: "We need 2 weeks minimum to do this properly" }, right: { label: "THE COMMS PERSON THEY TOLD YOU NOT TO WORRY ABOUT", text: "I'll have the full strategy, media plan, key messages, social toolkit and stakeholder map to you by 9am 😊" } },
+  { format: "reaction", emoji: "😶", image: "🪨", caption: "me when someone says 'we just need something quick and low effort' at 4:47pm on a Friday" },
+  { format: "drake", emoji: "🙅", reject: "Reading the brief before the kickoff call", approve: "Asking 'can you just run us through what you're after?' 20 minutes into the kickoff call" },
+  { format: "twopanel", emoji: "😩", before: { label: "9AM MONDAY", text: "I'm going to have such a productive week. Inbox zero. Clear priorities. Boundaries." }, after: { label: "9:15AM MONDAY", text: "🚨 URGENT: CEO quote approved wrong version pls fix before press embargo lifts in 45 mins" } },
+  { format: "impact", emoji: "💅", top: "SURE I CAN TURN THAT AROUND TODAY", bottom: "*it is 11pm. i am still turning it around.*" },
+  { format: "sidebyside", emoji: "📊", left: { label: "WHAT WE PITCHED", text: "A bold, integrated campaign rooted in authentic storytelling" }, right: { label: "WHAT GOT APPROVED", text: "A banner ad and a tweet" } },
+  { format: "reaction", emoji: "🫠", image: "🧠", caption: "my brain when I get 'can we just make this go viral?' as the entire brief" },
+  { format: "impact", emoji: "😇", top: "NO NOTES", bottom: "*12 notes. all from legal. all contradictory.*" },
+  { format: "twopanel", emoji: "🙃", before: { label: "THE EMAIL SUBJECT LINE", text: "Quick question!" }, after: { label: "THE ACTUAL EMAIL", text: "Hi, I know it's late but we need a full crisis comms plan, three spokesperson statements, a media holding line, and an internal FAQ by 8am. Happy to jump on a call now if easier?" } },
+];
+
+const INSPIRATION = [
+  { name: "Rania Anderson", tag: "Comms leader turned career advocate", named: true, blurb: "Rania spent years as a senior communications executive before pivoting to write and speak full-time about advancing women in the workplace. What's cool about her story isn't just the pivot — it's that she used every comms skill she had to build a platform that actually reaches people. She didn't leave the industry. She took it with her.", lesson: "Your comms skills are portable. More portable than you think." },
+  { name: "The CCO who took a sabbatical", tag: "Chief Communications Officer, global tech company", named: false, blurb: "After 11 years in high-pressure in-house roles, she negotiated a three-month sabbatical — fully unplugged — and came back to a promotion. Her argument to the board was straightforward: 'I can't lead a communications function on empty.' They said yes. She said she wishes she'd asked sooner.", lesson: "Rest is a negotiation. And you might be surprised what a confident ask gets you." },
+  { name: "Duane Brown", tag: "Founder, Take Some Risk", named: true, blurb: "Duane built a performance marketing agency while being extremely public about mental health, boundaries, and what sustainable work actually looks like. He talks openly about turning down clients, protecting his energy, and why growth for growth's sake isn't the goal. In an industry obsessed with hustle, he's quietly become a reference point for doing it differently.", lesson: "You can be brilliant at your craft and deeply intentional about how you spend your energy. These are not in conflict." },
+  { name: "The social media director who went part-time", tag: "Social Media Director, media company", named: false, blurb: "She was managing five channels, a team of three, and a 24/7 news cycle when she asked to go to four days a week. Her employer said no. She found one that said yes — and took her team with her. Two years on, she says the boundary didn't make her less effective. It made her more strategic about what actually needed her attention.", lesson: "Sometimes the job that respects your capacity doesn't exist yet. Sometimes you have to find it." },
+  { name: "Ann Handley", tag: "Chief Content Officer, MarketingProfs", named: true, blurb: "Ann has been writing about marketing and content long enough to have watched every trend arrive and leave. What makes her stand out isn't that she predicts what's next — it's that she consistently argues for slowing down, writing with more care, and communicating like a human being. In a world of hot takes, she's built a following on considered ones.", lesson: "Depth is a differentiator. Not everyone has the patience for it, which is exactly why it works." },
+  { name: "The PR director who set an out-of-office and kept it", tag: "PR Director, consumer brand", named: false, blurb: "She set a genuine out-of-office on her first holiday in three years — no 'I'll check in periodically,' no apology, no alternative contact that was actually her on a different device. Her team handled it. Nothing burned down. She came back and wrote an internal note to her team about it. It became the most-forwarded thing in the company that month.", lesson: "Your absence is also a form of leadership. It tells your team you trust them." },
+  { name: "Mita Mallick", tag: "Head of Inclusion, Equity & Impact — and writer", named: true, blurb: "Mita has built one of the most distinctive voices in the marketing and corporate world by writing honestly about what inclusion actually looks like from the inside — not the press release version. She's held senior roles at Unilever, Carta and others, but what's compelling is that she's never let the title determine what she says. She writes like someone with nothing to prove and everything to share.", lesson: "The most powerful communications aren't always the most polished. Sometimes they're just the most honest." },
+  { name: "Marie-Josée Gagnon", tag: "Founder & CEO, Casacom — Montréal, Canada 🇨🇦", named: true, blurb: "Marie-Josée founded Casacom in Montréal in 2001 and has spent over 30 years advising executives on how to communicate with actual substance. She's also the creator of Brave, a podcast series about courageous women. Named one of Canada's 100 Most Powerful Women, she's the kind of person who makes building something excellent look intentional rather than accidental. Because it is.", lesson: "Humanity and excellence are not in competition. You can build something ambitious and still make it a good place to be." },
+  { name: "Ron Tite", tag: "Founder, Church + State — Toronto, Canada 🇨🇦", named: true, blurb: "Ron is a former advertising creative director who became an author, speaker and agency founder — and has built a career on the idea that the best communicators think like storytellers first and strategists second. He's funny, he's smart, and he's very good at making complex ideas about branding and leadership feel like something you actually want to engage with. Inducted into the Canadian Marketing Hall of Fame.", lesson: "How you say it matters as much as what you say. The most brilliant strategy in the world won't land if the story isn't there." },
+  { name: "Trish Sherson", tag: "Director, Sherson Willis — Auckland, New Zealand 🇳🇿", named: true, blurb: "Trish has been one of the most recognisable names in New Zealand corporate affairs for decades. She started as a journalist at Radio New Zealand, moved into politics as a press secretary, then back into media, and eventually founded Sherson Willis, one of NZ's most prominent corporate affairs firms. She's built a serious reputation as a straight shooter with a journalist's instinct for what actually makes a story.", lesson: "Your journalism brain, your political brain, your comms brain — they're all the same brain. Use all of it." },
+  { name: "The comms director who moved from Wellington to a beach town", tag: "Former Government Communications Director, New Zealand 🇳🇿", named: false, blurb: "After 12 years in central government communications — including two years as director through some genuinely turbulent political cycles — she negotiated a fully remote arrangement and moved her family to a coastal town three hours from Wellington. She still does serious, high-stakes work. She just does it with better air quality and a shorter commute to the ocean.", lesson: "Where you work is a negotiation too. Not everyone can win it — but more people could ask than do." },
+  { name: "The consultant who niched down", tag: "Independent communications consultant", named: false, blurb: "After 14 years in agency and in-house roles, she went independent — and spent the first year saying yes to everything. Then she picked one sector, one speciality, and raised her rates. Her income went up. Her hours went down. She says the scariest part was turning down work that didn't fit. She calls it 'the best strategic decision I've made in my career.'", lesson: "Generalism gets you in the room. Specialism gets you the rate." },
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let quoteIdx = 0, tipIdx = 0, memeIdx = Math.floor(Math.random() * MEMES.length);
+let currentMood = null, currentHoro = null;
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+function init() {
+  renderDefaultQuoteTip();
+  renderMeme('default-meme');
+  renderTipsGrid();
+  renderInspirationGrid();
+  renderHoroscopeButtons();
+  renderHoroscopeGrid();
+  renderQuotesGrid();
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── TODAY ──────────────────────────────────────────────────────────────────
+function renderDefaultQuoteTip() {
+  document.getElementById('def-quote-text').textContent = '\u201c' + QUOTES[quoteIdx].text + '\u201d';
+  document.getElementById('def-quote-attr').textContent = '— ' + QUOTES[quoteIdx].attr;
+  document.getElementById('def-tip-cat').textContent = TIPS[tipIdx].category;
+  document.getElementById('def-tip-text').textContent = TIPS[tipIdx].tip;
+}
+
+function nextQuote() { quoteIdx = (quoteIdx + 1) % QUOTES.length; renderDefaultQuoteTip(); }
+function nextTip() { tipIdx = (tipIdx + 1) % TIPS.length; renderDefaultQuoteTip(); }
+
+function setMood(mood) {
+  currentMood = mood;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const mc = MOOD_CONTENT[mood];
+  const ack = document.getElementById('mood-ack');
+  ack.innerHTML = '<span class="label" style="color:' + mc.color + '">' + mc.emoji + ' Status acknowledged</span><p style="font-family:\'Playfair Display\',serif;font-size:20px;font-style:italic;color:#faf3e8">' + mc.ack + '</p>';
+  ack.style.borderColor = mc.color;
+  ack.style.background = 'rgba(' + mc.rgbRaw + ',0.1)';
+  ack.classList.remove('hidden');
+  document.getElementById('default-content').classList.add('hidden');
+  const mc_el = document.getElementById('mood-content');
+  mc_el.innerHTML = `
+    <div class="grid2">
+      <div class="card" style="border-color:rgba(${mc.rgbRaw},0.35)">
+        <span class="label" style="color:${mc.color}">For where you are right now</span>
+        <blockquote class="quote-text">&#8220;${mc.quote.text}&#8221;</blockquote>
+        <div class="quote-attr">— ${mc.quote.attr}</div>
+      </div>
+      <div class="card">
+        <span class="label">Your tip for today</span>
+        <span class="tip-cat" style="color:${mc.color}">${mc.tip.category}</span>
+        <p class="tip-text">${mc.tip.tip}</p>
+      </div>
+      <div class="card" style="background:rgba(${mc.rgbRaw},0.08);border-color:rgba(${mc.rgbRaw},0.3)">
+        <span class="label" style="color:${mc.color}">${mc.action.label}</span>
+        <p class="tip-text" style="font-size:17px;line-height:1.8">${mc.action.text}</p>
+      </div>
+      <div class="card">
+        <span class="label">${mc.extra.label}</span>
+        <p class="tip-text">${mc.extra.text}</p>
+      </div>
+    </div>
+    <div id="mood-meme"></div>
+  `;
+  mc_el.classList.remove('hidden');
+  renderMeme('mood-meme');
+}
+
+// ── MEMES ──────────────────────────────────────────────────────────────────
+function renderMeme(containerId) {
+  const meme = MEMES[memeIdx];
+  let inner = '';
+  if (meme.format === 'impact') {
+    inner = `<div class="meme-impact"><div class="impact-text">${meme.top}</div><span class="meme-emoji-big">${meme.emoji}</span><div class="impact-text">${meme.bottom}</div></div>`;
+  } else if (meme.format === 'drake') {
+    inner = `<div class="meme-drake"><div class="drake-row"><div class="drake-icon">🙅</div><div class="drake-text-no">${meme.reject}</div></div><div class="drake-row"><div class="drake-icon">👉</div><div class="drake-text-yes">${meme.approve}</div></div></div>`;
+  } else if (meme.format === 'reaction') {
+    inner = `<div class="meme-reaction"><span class="reaction-img">${meme.image}</span><div class="reaction-caption">${meme.caption}</div></div>`;
+  } else if (meme.format === 'twopanel') {
+    inner = `<div class="meme-two"><div class="two-panel"><span class="panel-label">${meme.before.label}</span><p class="panel-text">${meme.before.text}</p></div><div class="two-panel"><span class="panel-label">${meme.after.label}</span><p class="panel-text">${meme.after.text}</p></div></div>`;
+  } else if (meme.format === 'sidebyside') {
+    inner = `<div class="meme-side"><div class="side-panel"><span class="side-label-red">${meme.left.label}</span><p class="side-text-dim">${meme.left.text}</p></div><div class="side-panel"><span class="side-label-gold">${meme.right.label}</span><p class="side-text-bright">${meme.right.text}</p></div></div>`;
+  }
+  document.getElementById(containerId).innerHTML = `
+    <div class="meme-wrap">
+      <div class="meme-header">
+        <span class="meme-label">😂 Today's meme</span>
+        <button class="btn-outline" style="padding:6px 14px;font-size:10px" onclick="nextMeme('${containerId}')">Next →</button>
+      </div>
+      ${inner}
+    </div>`;
+}
+
+function nextMeme(containerId) {
+  memeIdx = (memeIdx + 1) % MEMES.length;
+  renderMeme(containerId);
+  const other = containerId === 'default-meme' ? 'mood-meme' : 'default-meme';
+  if (document.getElementById(other)) renderMeme(other);
+}
+
+// ── TIPS ───────────────────────────────────────────────────────────────────
+function renderTipsGrid() {
+  const grid = document.getElementById('tips-grid');
+  grid.innerHTML = TIPS.map(t => `<div class="card"><span class="tip-cat">${t.category}</span><p class="tip-text">${t.tip}</p></div>`).join('');
+}
+
+// ── INSPIRATION ────────────────────────────────────────────────────────────
+function renderInspirationGrid() {
+  const grid = document.getElementById('inspiration-grid');
+  grid.innerHTML = INSPIRATION.map(p => `
+    <div class="card" style="display:grid;grid-template-columns:1fr 2fr;gap:32px;align-items:start">
+      <div>
+        <span class="label">${p.named ? 'Featured' : 'Anonymous'}</span>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#faf3e8;margin-bottom:8px;line-height:1.3">${p.name}</div>
+        <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(250,243,232,0.4);line-height:1.5">${p.tag}</div>
+      </div>
+      <div>
+        <p class="tip-text" style="margin-bottom:20px">${p.blurb}</p>
+        <div style="border-top:1px solid rgba(212,175,95,0.2);padding-top:16px;display:flex;align-items:flex-start;gap:12px">
+          <span class="label" style="margin-bottom:0;white-space:nowrap;padding-top:2px">The takeaway</span>
+          <p style="font-size:14px;font-style:italic;font-family:'Playfair Display',serif;color:#d4af5f;line-height:1.6">${p.lesson}</p>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── HOROSCOPE ──────────────────────────────────────────────────────────────
+function renderHoroscopeButtons() {
+  const wrap = document.getElementById('horo-buttons');
+  wrap.innerHTML = HOROSCOPES.map(s => `<button class="mood-btn" onclick="selectHoro('${s.name}')">${s.symbol} ${s.name}</button>`).join('');
+}
+
+function renderHoroscopeGrid() {
+  const grid = document.getElementById('horo-grid');
+  grid.innerHTML = HOROSCOPES.slice(0, 6).map(s => `
+    <div class="card" style="cursor:pointer" onclick="selectHoro('${s.name}')">
+      <div class="horo-symbol">${s.symbol}</div>
+      <span class="horo-name">${s.name}</span>
+      <span class="horo-title">${s.title}</span>
+      <p class="horo-text">${s.text.slice(0, 80)}…</p>
+    </div>`).join('');
+}
+
+function selectHoro(name) {
+  currentHoro = name;
+  const s = HOROSCOPES.find(h => h.name === name);
+  document.querySelectorAll('#horo-buttons .mood-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#horo-buttons .mood-btn').forEach(b => { if (b.textContent.includes(name)) b.classList.add('active'); });
+  const sel = document.getElementById('horo-selected');
+  sel.innerHTML = `
+    <div class="card-gold fade-up" style="max-width:680px">
+      <div class="horo-symbol">${s.symbol}</div>
+      <span class="horo-name">${s.name}</span>
+      <span class="horo-title" style="font-size:22px">${s.title}</span>
+      <p class="horo-text" style="font-size:18px">${s.text}</p>
+    </div>`;
+  sel.classList.remove('hidden');
+  document.getElementById('horo-grid').classList.add('hidden');
+}
+
+// ── CRISIS ─────────────────────────────────────────────────────────────────
+function spinCrisis() {
+  const idx = Math.floor(Math.random() * CRISIS_SCENARIOS.length);
+  const rs = Math.floor(Math.random() * CRISIS_RESPONSES.length);
+  document.getElementById('crisis-text').textContent = '\u201c' + CRISIS_SCENARIOS[idx] + '\u201d';
+  document.getElementById('crisis-output').classList.remove('hidden');
+  document.getElementById('playbook-content').classList.add('hidden');
+  document.getElementById('playbook-btn-wrap').classList.remove('hidden');
+  document.getElementById('spin-btn').textContent = 'New Scenario';
+  document.getElementById('playbook-content').dataset.rs = rs;
+}
+
+function showPlaybook() {
+  const rs = parseInt(document.getElementById('playbook-content').dataset.rs);
+  const steps = CRISIS_RESPONSES[rs];
+  document.getElementById('playbook-content').innerHTML = '<span class="label">Your move</span>' + steps.map((s, i) => `<div class="step-row"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`).join('');
+  document.getElementById('playbook-content').classList.remove('hidden');
+  document.getElementById('playbook-btn-wrap').classList.add('hidden');
+}
+
+// ── QUOTES ─────────────────────────────────────────────────────────────────
+function renderQuotesGrid() {
+  const grid = document.getElementById('quotes-grid');
+  grid.innerHTML = QUOTES.map((q, i) => `
+    <div class="card${i === 0 ? '" style="grid-column:span 2;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3)' : ''}"  >
+      <div style="font-family:'Playfair Display',serif;font-size:${i===0?'28':'20'}px;font-style:italic;line-height:1.5;color:#faf3e8;margin-bottom:16px">&#8220;${q.text}&#8221;</div>
+      <div class="quote-attr">— ${q.attr}</div>
+    </div>`).join('');
+}
+
+init();
+</script>
+</body>
+</html>
